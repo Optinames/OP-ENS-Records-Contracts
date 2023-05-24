@@ -119,7 +119,7 @@ contract OptimismResolver is IExtendedResolver, SupportsInterface, Ownable {
         }
     }
     
-    function resolve(bytes calldata name, bytes calldata data) external override view returns(bytes memory) {
+    function resolve(bytes calldata name, bytes calldata data) external view returns(bytes memory) {
         bytes32 node = decodeData(data);
         address owner = ens.owner(node);
         if (owner == address(nameWrapper)) { owner = nameWrapper.ownerOf(uint256(node)); }
