@@ -79,6 +79,17 @@ function text(
         return textOf[node][key][owner].text;
     }
 
+function multicall(bytes[] calldata data) external returns(bytes[] memory results) {
+        results = new bytes[](data.length);
+        for(uint i = 0; i < data.length; i++) {
+            (bool success, bytes memory result) = address(this).delegatecall(data[i]);
+            require(success);
+            results[i] = result;
+        }
+        return results;
+    }
+
+
 function decodeData(bytes memory callData) public pure returns(uint256 functionName, bytes32 node, string memory key, uint256 coinType) {
         bytes4 functionSelector;
         assembly {
